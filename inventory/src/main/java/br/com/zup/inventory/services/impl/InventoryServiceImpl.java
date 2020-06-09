@@ -34,41 +34,8 @@ public class InventoryServiceImpl implements InventoryService {
         this.template = template;
     }
 
+    //TODO: Implementar processamento do evento de Ordem Criada
     public void process(OrderCreatedEvent orderCreatedEvent){
-
-        Map<String, Integer> items;
-        Reserve reserve = new Reserve();
-        Inventory inventory = new Inventory();
-
-        List<Inventory> inventories = new ArrayList<>();
-        List<String> festivalList = orderCreatedEvent.getItems().keySet().stream().collect(Collectors.toList());
-
-        for (String festivalId:festivalList){
-
-            inventory = this.inventoryRespository.getOne(festivalId);
-            Integer qty = inventory.getQtyAvailable();
-            qty = qty - orderCreatedEvent.getItems().get(festivalId);
-            inventory.setQtyAvailable(qty);
-            this.inventoryRespository.save(inventory);
-        }
-
-        reserve.setCustomerId(orderCreatedEvent.getCustomerId());
-        reserve.setOrderId(orderCreatedEvent.getOrderId());
-        reserve.setInventoryId(inventory.getInventoryId());
-        reserve.setAmount(orderCreatedEvent.getAmount());
-        reserve.setId("2e8629f1e-f83e-4f81-b2d7-23655ac04b8a");
-        this.reserveRepository.save(reserve);
-
-        BookedEvent event = new BookedEvent(
-                reserve.getId(),
-                orderCreatedEvent.getCustomerId(),
-                orderCreatedEvent.getOrderId(),
-                orderCreatedEvent.getAmount()
-        );
-
-        this.template.send("booked-orders", event);
-
-
 
     }
 }

@@ -23,7 +23,7 @@ public class KafkaListner {
     @KafkaListener(topics = "booked-orders", groupId = "payment-group-id")
     public void listenCreatedOrders(String message) throws IOException {
         BookedEvent event = this.objectMapper.readValue(message, BookedEvent.class);
-        System.out.println("evento: " + event);
+        //TODO: Implementar serviço de processamento do pagamento.
     }
 
 }

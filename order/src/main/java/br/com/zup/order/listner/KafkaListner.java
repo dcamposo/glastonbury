@@ -24,7 +24,6 @@ public class KafkaListner {
     @KafkaListener(topics = "booked-orders", groupId = "order-group-id")
     public void listenCreatedOrders(String message) throws IOException {
         BookedEvent event = this.objectMapper.readValue(message, BookedEvent.class);
-        System.out.println("evento: " + event);
     }
 
 }
